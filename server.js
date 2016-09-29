@@ -8,9 +8,8 @@ var encrypted = require('./public/encrypted.js');
 
 
 //connecting mongodb
-// mongoose.connect('mongodb://' + "localhost" + '/' + "shorty");
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://' + "lanepin-shorty-test-3834298" + '/' + "shorty");
+mongoose.connect('mongodb://' + "localhost" + '/' + "shorty");
 
 //require body requests to json
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -66,7 +65,7 @@ app.post('/shorten', function(req, res){
           }
          
         //pull shortcode, attach domain name, assign to short_url, send it off.
-        short_url = "https://shorty-test-lanepin.c9users.io/" + newUrl.shortcode;
+        short_url = "https://localhost:8000/" + newUrl.shortcode;
         res.send({'shortcode': short_url});
        });
       }
@@ -88,8 +87,8 @@ app.get('/:short_code', function(req, res){
 });
 
 //server port opener
-var server = app.listen(process.env.PORT, process.env.IP, function(){
-  console.log('Server listening on port' + process.env.PORT);
+var server = app.listen(8080, function(){
+  console.log('Server listening on port' + 8080);
 });
 
 module.exports = app;
