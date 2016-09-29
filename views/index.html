@@ -8,17 +8,19 @@
 </head>
 <body>
     
-<div id="container">
+<div id="container" ng-app="shorty" ng-controller="urlCtrl">
     <h1>Shorty</h1>
     <h2>URL Shortner</h2>
-    <input id="url-input"  placeholder="Paste a website link...">
-    <input id="shortcode-input"  placeholder="Shortcode?">
+    <input id="url-input"  placeholder="Paste a website link..." ng-model="url">
+    <input id="shortcode-input"  placeholder="Shortcode?" ng-model="shortcode">
 
-    <button id="btn">Short it!</button>
+    <button id="btn" ng-click="addUrl()">Short it!</button>
 
-    <div id="link"><a href=""></a></div>
-    <div class="message"></div>
+    <div id="link"><a href="{{short_url}}">{{short_url}}</a></div>
+    <div ng-show="showMessage" class="message fadein fadeout">{{error}}</div>
 </div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+<script type="text/javascript" src="controller.js"></script>
 </body>
 </html>
