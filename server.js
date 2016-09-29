@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var Url = require('./models/url.js');
 
-//setting up mongodb
+//connecting mongodb
 mongoose.connect('mongodb://' + "localhost" + '/' + "shorty");
 
 //require body requests to json
@@ -24,13 +24,33 @@ app.get('/', function(req, res){
 app.post('/shorten', function(req, res){
     var longUrl = req.body.url;
     var shortCode = req.body.shortcode;
+    var short_url;
     
-    var newUrl = Url({
-        long_url: longUrl,
-        shortcode: shortCode
+    //fetch url from db using shortcode
+    Url.findOne({shortcode: shortCode}, function (err, doc){
+    if (doc){//if shortcode is found, respond error
+        
+       res.status(409).send({error: "	The desired shortcode is already in use. Shortcodes are case-sensitive."});
+       
+      } else {
+        //create new url
+        var newUrl = Url({
+         long_url: longUrl,
+         shortcode: shortCode
+        });
+        
+        //save url
+        newUrl.save(function(err) {
+         if (err){
+            console.log("Error:" + err);
+         }
+         
+        //pull shortcode, attach domain name, assign to short_url, send it off.
+        short_url = "https://locahost:8000/" + newUrl.shortcode;
+        res.send({'shortcode': short_url});
+       });
+      }
     });
-    
-    res.send({'shortcode': newUrl.shortcode});
 });
 
 app.get('/:short_code', function(req, res){

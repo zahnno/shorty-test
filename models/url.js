@@ -3,7 +3,6 @@ var Schema = mongoose.Schema;
 
 //url schema for long_urls and shortcodes
 var UrlSchema = new Schema({
-  _id: {type: Number},
   long_url: String,
   shortcode: String,
   created_at: Date
