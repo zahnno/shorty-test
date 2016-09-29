@@ -16,7 +16,10 @@
 
     <button id="btn" ng-click="addUrl()">Short it!</button>
 
-    <div id="link"><a href="{{short_url}}">{{short_url}}</a></div>
+    <div id="link">
+        <a href="{{short_url}}">{{short_url}}</a>
+    </div>
+    
     <div ng-show="showMessage" class="message fadein fadeout">{{error}}</div>
 </div>
 
