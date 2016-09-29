@@ -1,0 +1,29 @@
+{
+  "name": "shorty",
+  "version": "0.0.1",
+  "description": "Url Shortner",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zahnno/shorty-test.git"
+  },
+  "keywords": [
+    "url",
+    "shortner",
+    "shortify"
+  ],
+  "author": "Patrick Zanowski",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zahnno/shorty-test/issues"
+  },
+  "homepage": "https://github.com/zahnno/shorty-test#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0"
+  }
+}
