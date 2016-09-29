@@ -1,21 +1,24 @@
-Shorty
+#Shorty
 
-Url Shortner
+##Url Shortner
 
-npm must been installed on your computer.
+npm must been installed to run server on your computer.
 
-Setup mongoDB & Server:
+###Setup mongoDB & Server:
 
-In shorty directory
+####In shorty directory
 
 $ sudo apt-get install -y mongodb-org
+
 $ run server mongod --nojournal
+
 $ npm install
-Running server:
+
+###Running server:
 
 $ node server.js
 
-Running suite:
+###Running suite:
 
 $ mocha
 
