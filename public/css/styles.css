@@ -1,0 +1,47 @@
+body{
+    font-family: Tahoma;    
+    background: lightblue;
+}
+
+h1{
+    margin-bottom: 5px;
+    font-size: 10em;
+}
+
+input:focus {
+    outline:none !important;
+}
+
+input{
+    border: none;
+    width: 40%;
+    height: 50px;
+    padding-top: 5px;
+    font-size: 1.5em;
+    text-align: center;
+}
+
+#shortcode-input{
+    width: 20%;
+}
+
+#container{
+    width: 100%;
+    text-align: center;
+}
+
+#btn{
+    width: 120px;
+    height: 55px;
+    background: black;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    padding-top: 5px;
+    border: 2px solid black;
+}
+
+#link{
+    margin-top: 50px;
+    font-size: 1.5em;
+}
