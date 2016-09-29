@@ -4,9 +4,11 @@ var path = require('path');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var Url = require('./models/url.js');
+var encrypted = require('./public/encrypted.js');
 
 //connecting mongodb
-mongoose.connect('mongodb://' + "localhost" + '/' + "shorty");
+// mongoose.connect('mongodb://' + "localhost" + '/' + "shorty");
+mongoose.connect('mongodb://' + "lanepin-shorty-test-3834298" + '/' + "shorty");
 
 //require body requests to json
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -21,19 +23,36 @@ app.get('/', function(req, res){
 });
 
 //post request to create a shortcoded url
+//post request to create a shortcoded url
 app.post('/shorten', function(req, res){
-    var longUrl = req.body.url;
-    var shortCode = req.body.shortcode;
-    var short_url;
+
+  var longUrl = req.body.url;
+  var shortCode = req.body.shortcode;
+  var short_url;
+  
+  //assign shortcode if none is present
+  if (!shortCode) shortCode = encrypted.encrypt();
+  
+  //if url is not present in req, respond error
+  if (!longUrl) {
+    
+    res.status(400).send({ error: "url is not present" });
+    
+  } else {
     
     //fetch url from db using shortcode
     Url.findOne({shortcode: shortCode}, function (err, doc){
-    if (doc){//if shortcode is found, respond error
+      if (doc){//if shortcode is found, respond error
         
        res.status(409).send({error: "	The desired shortcode is already in use. Shortcodes are case-sensitive."});
        
+      } else if (/^[0-9a-zA-Z_]{4,}$/.test(shortCode) != true) {//if short code doesn't fall into regexp, respond error
+        
+        res.status(422).send({error: "The shortcode fails to meet the following regexp: ^[0-9a-zA-Z_]{4,}$."});
+        
       } else {
-        //create new url
+        
+        //create new url if conditions pass
         var newUrl = Url({
          long_url: longUrl,
          shortcode: shortCode
@@ -46,11 +65,12 @@ app.post('/shorten', function(req, res){
          }
          
         //pull shortcode, attach domain name, assign to short_url, send it off.
-        short_url = "https://locahost:8000/" + newUrl.shortcode;
+        short_url = "https://shorty-lanepin.c9users.io/" + newUrl.shortcode;
         res.send({'shortcode': short_url});
        });
       }
     });
+  }
 });
 
 app.get('/:short_code', function(req, res){
@@ -58,6 +78,6 @@ app.get('/:short_code', function(req, res){
 });
 
 //server port opener
-var server = app.listen(8000, function(){
-    console.log('Server listening on port ' + 8000);
+var server = app.listen(process.env.PORT, process.env.IP, function(){
+  console.log('Server listening on port' + process.env.PORT);
 });
