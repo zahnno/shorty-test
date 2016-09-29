@@ -10,4 +10,4 @@ function encrypt(){
   return code;
 }
 
-module.exports.encrypted = encrypt;
+module.exports.encrypt = encrypt;

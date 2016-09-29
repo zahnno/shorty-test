@@ -4,7 +4,8 @@ var path = require('path');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var Url = require('./models/url.js');
-var encrypted = require('./public/encrypted.js');
+var encrypted = require('./js/encrypted.js');
+
 
 //connecting mongodb
 // mongoose.connect('mongodb://' + "localhost" + '/' + "shorty");
@@ -44,7 +45,7 @@ app.post('/shorten', function(req, res){
     Url.findOne({shortcode: shortCode}, function (err, doc){
       if (doc){//if shortcode is found, respond error
         
-       res.status(409).send({error: "	The desired shortcode is already in use. Shortcodes are case-sensitive."});
+       res.status(409).send({error: "The desired shortcode is already in use. Shortcodes are case-sensitive."});
        
       } else if (/^[0-9a-zA-Z_]{4,}$/.test(shortCode) != true) {//if short code doesn't fall into regexp, respond error
         
@@ -65,7 +66,7 @@ app.post('/shorten', function(req, res){
          }
          
         //pull shortcode, attach domain name, assign to short_url, send it off.
-        short_url = "https://shorty-lanepin.c9users.io/" + newUrl.shortcode;
+        short_url = "https://shorty-test-lanepin.c9users.io/" + newUrl.shortcode;
         res.send({'shortcode': short_url});
        });
       }
@@ -73,8 +74,18 @@ app.post('/shorten', function(req, res){
   }
 });
 
+//get request for url using shortcode 
 app.get('/:short_code', function(req, res){
-
+  var shortcode = req.params.short_code;
+ 
+  Url.findOne({shortcode: shortcode}, function (err, doc){
+    console.log(doc.long_url);
+    if (doc) {
+      res.redirect(doc.long_url);//redirecting to long-url
+    } else {
+      res.status(404).send({error: "The shortcode cannot be found in the system or url provided is invalid"})//responding with error if shortcode not found
+    }
+  });
 });
 
 //server port opener
