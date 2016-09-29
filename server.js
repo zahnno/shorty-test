@@ -4,11 +4,12 @@ var path = require('path');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var Url = require('./models/url.js');
-var encrypted = require('./js/encrypted.js');
+var encrypted = require('./public/encrypted.js');
 
 
 //connecting mongodb
 // mongoose.connect('mongodb://' + "localhost" + '/' + "shorty");
+mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://' + "lanepin-shorty-test-3834298" + '/' + "shorty");
 
 //require body requests to json
@@ -23,7 +24,6 @@ app.get('/', function(req, res){
     res.sendFile(path.join(__dirname, 'views/index.html'));
 });
 
-//post request to create a shortcoded url
 //post request to create a shortcoded url
 app.post('/shorten', function(req, res){
 
@@ -61,9 +61,9 @@ app.post('/shorten', function(req, res){
         
         //save url
         newUrl.save(function(err) {
-         if (err){
+          if (err){
             console.log("Error:" + err);
-         }
+          }
          
         //pull shortcode, attach domain name, assign to short_url, send it off.
         short_url = "https://shorty-test-lanepin.c9users.io/" + newUrl.shortcode;
