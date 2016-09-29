@@ -79,7 +79,6 @@ app.get('/:short_code', function(req, res){
   var shortcode = req.params.short_code;
  
   Url.findOne({shortcode: shortcode}, function (err, doc){
-    console.log(doc.long_url);
     if (doc) {
       res.redirect(doc.long_url);//redirecting to long-url
     } else {
@@ -92,3 +91,5 @@ app.get('/:short_code', function(req, res){
 var server = app.listen(process.env.PORT, process.env.IP, function(){
   console.log('Server listening on port' + process.env.PORT);
 });
+
+module.exports = app;
