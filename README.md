@@ -14,13 +14,15 @@ git clone project in desired directory.
 
 ###In shorty directory
 
-$ mkdir /data/db
+$ mkdir -p /data/db
 
 ###Running mongodb 
 
 $ mongod --nojournal
 
 ###Setting up server
+
+In another terminal
 
 $ npm install
 
@@ -30,6 +32,4 @@ $ node server.js
 
 ###Running suite:
 
-$ mocha
-
-
+$ npm test
