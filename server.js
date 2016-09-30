@@ -6,7 +6,6 @@ var mongoose = require('mongoose');
 var Url = require('./models/url.js');
 var encrypted = require('./public/encrypted.js');
 
-
 //connecting mongodb
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://' + "localhost" + '/' + "shorty");
@@ -20,7 +19,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //homepage route
 app.get('/', function(req, res){
-    res.sendFile(path.join(__dirname, 'views/index.html'));
+  res.sendFile(path.join(__dirname, 'views/index.html'));
 });
 
 //post request to create a shortcoded url
@@ -42,20 +41,21 @@ app.post('/shorten', function(req, res){
     
     //fetch url from db using shortcode
     Url.findOne({shortcode: shortCode}, function (err, doc){
+      
       if (doc){//if shortcode is found, respond error
+      
+        res.status(409).send({error: "	The desired shortcode is already in use. Shortcodes are case-sensitive."});
         
-       res.status(409).send({error: "The desired shortcode is already in use. Shortcodes are case-sensitive."});
-       
       } else if (/^[0-9a-zA-Z_]{4,}$/.test(shortCode) != true) {//if short code doesn't fall into regexp, respond error
-        
+      
         res.status(422).send({error: "The shortcode fails to meet the following regexp: ^[0-9a-zA-Z_]{4,}$."});
         
       } else {
         
         //create new url if conditions pass
         var newUrl = Url({
-         long_url: longUrl,
-         shortcode: shortCode
+          long_url: longUrl,
+          shortcode: shortCode
         });
         
         //save url
@@ -64,10 +64,10 @@ app.post('/shorten', function(req, res){
             console.log("Error:" + err);
           }
          
-        //pull shortcode, attach domain name, assign to short_url, send it off.
-        short_url = "https://localhost:8000/" + newUrl.shortcode;
-        res.send({'shortcode': short_url});
-       });
+          //pull shortcode, attach domain name, assign to short_url, send it off.
+          short_url = "http://localhost:8080/" + newUrl.shortcode;
+          res.send({'shortcode': short_url});
+        });
       }
     });
   }
@@ -78,17 +78,23 @@ app.get('/:short_code', function(req, res){
   var shortcode = req.params.short_code;
  
   Url.findOne({shortcode: shortcode}, function (err, doc){
+
     if (doc) {
+      
       res.redirect(doc.long_url);//redirecting to long-url
+      
     } else {
+      
       res.status(404).send({error: "The shortcode cannot be found in the system or url provided is invalid"})//responding with error if shortcode not found
+    
     }
   });
 });
 
 //server port opener
 var server = app.listen(8080, function(){
-  console.log('Server listening on port' + 8080);
+  console.log('Server listening on port ' + 8080);
 });
 
 module.exports = app;
+

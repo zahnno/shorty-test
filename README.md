@@ -1,20 +1,48 @@
-Shorty
+#Shorty
 
-Url Shortner
+##Url Shortner
 
-Setup mongoDB:
+npm and brew must been installed to run server on your computer.
 
-In shorty directory
+Follow instruction in link: https://changelog.com/install-node-js-with-homebrew-on-os-x/
 
-$ sudo apt-get install -y mongodb-org
-$ run server mongod --nojournal
+###Setup mongoDB & Server:
 
-Running server:
+Follow instruction in link: http://www.bigspaceship.com/mongodb-on-mac/
+
+git clone project in desired directory.
+
+###In shorty directory via terminal
+
+$ mkdir -p /data/db
+
+###Running mongodb
+
+In terminal:
+
+$ mongod --nojournal
+
+###Setting up server
+
+In another terminal:
+
+$ npm install
+
+###Running server:
 
 $ node server.js
 
-Running suite:
+###Visit Web App
 
-$ mocha
+Launch Web browser
 
+In url field:
+
+http://localhost:8080
+
+###Running suite:
+
+In terminal:
+
+$ npm test
 
