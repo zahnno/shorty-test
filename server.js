@@ -65,7 +65,7 @@ app.post('/shorten', function(req, res){
           }
          
         //pull shortcode, attach domain name, assign to short_url, send it off.
-        short_url = "https://localhost:8000/" + newUrl.shortcode;
+        short_url = "https://localhost:8080/" + newUrl.shortcode;
         res.send({'shortcode': short_url});
        });
       }
