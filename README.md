@@ -24,7 +24,7 @@ $ mongod --nojournal
 
 ###Setting up server
 
-In another terminal:
+In shorty dir on another terminal:
 
 $ npm install
 
@@ -45,4 +45,3 @@ http://localhost:8080
 In terminal:
 
 $ npm test
-

@@ -34,7 +34,6 @@ app.post('/shorten', function(req, res){
   
   //if url is not present in req, respond error
   if (!longUrl) {
-    
     res.status(400).send({ error: "url is not present" });
     
   } else {
@@ -43,11 +42,9 @@ app.post('/shorten', function(req, res){
     Url.findOne({shortcode: shortCode}, function (err, doc){
       
       if (doc){//if shortcode is found, respond error
-      
         res.status(409).send({error: "	The desired shortcode is already in use. Shortcodes are case-sensitive."});
         
       } else if (/^[0-9a-zA-Z_]{4,}$/.test(shortCode) != true) {//if short code doesn't fall into regexp, respond error
-      
         res.status(422).send({error: "The shortcode fails to meet the following regexp: ^[0-9a-zA-Z_]{4,}$."});
         
       } else {
@@ -64,10 +61,10 @@ app.post('/shorten', function(req, res){
             console.log("Error:" + err);
           }
          
-          //pull shortcode, attach domain name, assign to short_url, send it off.
-          short_url = "http://localhost:8080/" + newUrl.shortcode;
-          res.send({'shortcode': short_url});
-        });
+        //pull shortcode, attach domain name, assign to short_url, send it off.
+        short_url = "https://localhost:8080/" + newUrl.shortcode;
+        res.send({'shortcode': short_url});
+       });
       }
     });
   }
@@ -80,13 +77,10 @@ app.get('/:short_code', function(req, res){
   Url.findOne({shortcode: shortcode}, function (err, doc){
 
     if (doc) {
-      
       res.redirect(doc.long_url);//redirecting to long-url
       
     } else {
-      
       res.status(404).send({error: "The shortcode cannot be found in the system or url provided is invalid"})//responding with error if shortcode not found
-    
     }
   });
 });
@@ -97,4 +91,3 @@ var server = app.listen(8080, function(){
 });
 
 module.exports = app;
-
